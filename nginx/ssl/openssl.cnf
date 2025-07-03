@@ -1,0 +1,19 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+CN = jacoblounge
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = tests.jacoblounge
+DNS.2 = anime.jacoblounge
+DNS.3 = home.jacoblounge
+DNS.4 = cards.jacoblounge
+DNS.5 = travel.jacoblounge
+
+

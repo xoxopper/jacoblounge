@@ -1,0 +1,101 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+#grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    width: 100vw;
+    height: 100vh;
+}
+.square {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: filter 0.3s ease, color 0.3s ease;
+    user-select: none;
+}
+#home {
+    background-image: url('https://artfasad.com/wp-content/uploads/2023/07/japanese-style-home-design-8.jpg');
+}
+#travel {
+    background-image: url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80');
+}
+#anime {
+    background-image: url('https://images.wallpapersden.com/image/download/sukuna-4k-jujutsu-kaisen-art_bmZtamWUmZqaraWkpJRobWllrWdma2U.jpg');
+}
+#cards {
+    background-image: url('https://w.wallhaven.cc/full/gp/wallhaven-gp7kx3.jpg');
+}
+.square.dimmed {
+    filter: brightness(0.5);
+    pointer-events: none;
+    transition: filter 0.3s ease;
+}
+.square.fade-text {
+    color: transparent;
+    transition: color 0.3s ease;
+}
+.content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.1s ease 0.1s;
+    pointer-events: none;
+    max-width: 90vw;
+    z-index: 101;
+    user-select: none;
+}
+.content.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#mainContent {
+    position: fixed;
+    z-index: 102;
+}
+
+.back-button {
+    position: relative;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 102;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease 0.2s;
+    user-select: none;
+    border-radius: 8px;
+}
+.back-button.visible {
+    opacity: 1;
+    pointer-events: auto;
+}

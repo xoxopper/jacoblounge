@@ -1,0 +1,66 @@
+/* Default sidebar state: expanded */
+.sidebar {
+    height: 100vh;
+    width: 0;
+    background-color: #222;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+}
+.sidebar.collapsed {
+    width: 0;
+}
+
+.sidebar .btn {
+    color: white;
+    text-align: start;
+    padding-left: 0.5rem;
+    font-weight: 500;
+    border-radius: 0;
+    border: none;
+    white-space: nowrap;
+    user-select: none;
+}
+.sidebar .btn:hover {
+    background-color: #444;
+    color: white;
+}
+.sidebar .btn .icon {
+    width: 20px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+.sidebar.collapsed .btn span.label {
+    display: none;
+}
+.sidebar .profile-container {
+    margin-top: auto;
+    border-top: 1px solid #444;
+}
+/* Content area margin depends on sidebar width */
+#mainContent {
+    margin-left: 150px;
+    padding: 1rem;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
+}
+.sidebar.collapsed ~ #content {
+    margin-left: 35px;
+}
+
+/* On small screens, sidebar starts collapsed */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 35px;
+    }
+    .mainContent {
+        margin-left: 35px;
+    }
+}
+

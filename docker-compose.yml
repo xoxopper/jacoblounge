@@ -1,0 +1,52 @@
+services:
+  reverse-proxy:
+    build: ./nginx
+    ports:
+      - "8098:80"
+      - "8099:443"
+    volumes:
+      - ./nginx/proxy_temp:/var/nginx/proxy_temp
+      - ./nginx/client_body_temp:/var/nginx/client_body_temp
+    depends_on:
+      - home.jacoblounge
+      - test.jacoblounge
+      - cards.jacoblounge
+      - travel.jacoblounge
+      - anime.jacoblounge
+      - frontend.jacoblounge
+    networks:
+      - localnet
+
+  home.jacoblounge:
+    build: ./home.jacoblounge
+    networks:
+      - localnet
+
+  test.jacoblounge:
+    build: ./test.jacoblounge
+    networks:
+      - localnet
+      
+  cards.jacoblounge:
+    build: ./cards.jacoblounge
+    networks:
+      - localnet
+      
+  travel.jacoblounge:
+    build: ./travel.jacoblounge
+    networks:
+      - localnet
+      
+  anime.jacoblounge:
+    build: ./anime.jacoblounge
+    networks:
+      - localnet
+
+  frontend.jacoblounge:
+    build: ./frontend.jacoblounge
+    networks:   
+      - localnet
+
+networks:
+  localnet:
+    driver: bridge
