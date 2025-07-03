@@ -34,16 +34,16 @@ html, body {
     user-select: none;
 }
 #home {
-    background-image: url('https://artfasad.com/wp-content/uploads/2023/07/japanese-style-home-design-8.jpg');
+    background-image: url('../images/home.jpg');
 }
 #travel {
-    background-image: url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80');
+    background-image: url('../images/travel.jpg');
 }
 #anime {
-    background-image: url('https://images.wallpapersden.com/image/download/sukuna-4k-jujutsu-kaisen-art_bmZtamWUmZqaraWkpJRobWllrWdma2U.jpg');
+    background-image: url('../images/anime.jpg');
 }
 #cards {
-    background-image: url('https://w.wallhaven.cc/full/gp/wallhaven-gp7kx3.jpg');
+    background-image: url('../images/cards.jpg');
 }
 .square.dimmed {
     filter: brightness(0.5);
