@@ -25,7 +25,10 @@ func main() {
         fmt.Fprintln(w, "pong")
     })
 
-    http.Handle("/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+    http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("static"))))
+    http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "static/login.html")
+    })
 
     fmt.Println("Server is running on port 80...")
     err := http.ListenAndServe(":80", nil)

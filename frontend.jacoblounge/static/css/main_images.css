@@ -9,7 +9,14 @@ html, body {
     font-family: Arial, sans-serif;
     overflow: hidden;
 }
+
+body.loaded #grid {
+    opacity: 1;
+}
+
 #grid {
+    opacity: 0;
+    transition: opacity 0.6s ease;
     position: fixed;
     top: 0;
     left: 0;
@@ -30,39 +37,53 @@ html, body {
     background-size: cover;
     background-position: center;
     cursor: pointer;
-    transition: filter 0.3s ease, color 0.3s ease;
+    transition: filter 0.2s ease, color 0.2s ease;
     user-select: none;
+    will-change: width, height;
 }
-#home {
-    background-image: url('../images/home.jpg');
+
+#homeGrid {
+    background-image: url('../images/home_low_res.jpg');
 }
-#travel {
-    background-image: url('../images/travel.jpg');
+#homeBackground {
+    background-image: url('../images/home_high_res.jpg');
 }
-#anime {
-    background-image: url('../images/anime.jpg');
+#travelGrid {
+    background-image: url('../images/travel_low_res.jpg');
 }
-#cards {
-    background-image: url('../images/cards.jpg');
+#travelBackground {
+    background-image: url('../images/travel_high_res.jpg');
 }
+#animeGrid {
+    background-image: url('../images/anime_low_res.jpg');
+}
+#animeBackground {
+    background-image: url('../images/anime_high_res.jpg');
+}
+#cardsGrid {
+    background-image: url('../images/cards_low_res.jpg');
+}
+#cardsBackground {
+    background-image: url('../images/cards_high_res.jpg');
+}
+
 .square.dimmed {
     filter: brightness(0.5);
     pointer-events: none;
-    transition: filter 0.3s ease;
+    transition: filter 0.2s ease;
 }
 .square.fade-text {
     color: transparent;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
 }
 .content {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     color: white;
     text-align: center;
     opacity: 0;
-    transition: opacity 0.1s ease 0.1s;
+    transition: opacity 100ms ease-out;
     pointer-events: none;
     max-width: 90vw;
     z-index: 101;
@@ -71,6 +92,7 @@ html, body {
 .content.visible {
     opacity: 1;
     pointer-events: auto;
+    transition: opacity 200ms ease-in;
 }
 
 #mainContent {
@@ -91,11 +113,12 @@ html, body {
     z-index: 102;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease 0.2s;
+    transition: opacity 100ms ease-out;
     user-select: none;
     border-radius: 8px;
 }
 .back-button.visible {
     opacity: 1;
     pointer-events: auto;
+    transition: opacity 200ms ease-in;
 }

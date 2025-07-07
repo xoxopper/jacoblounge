@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function(){
+function init() {
     const subjectList = ["home", "travel", "anime", "cards"];
 
     for (let subject of subjectList) {
@@ -37,4 +37,11 @@ document.addEventListener("DOMContentLoaded", function(){
         window.addEventListener('load', handleResize);
 
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init(); // DOM is already loaded
+}
+

@@ -1,0 +1,25 @@
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.white-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+}
+.white-screen.active {
+    opacity: 1;
+}
+.login-button{
+    opacity: 0.6;
+}
+.login-button.loginButtonActive{
+    opacity: 1;
+}

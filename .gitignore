@@ -1,0 +1,5 @@
+# Ignore all macOS system files named .DS_Store anywhere
+**/.DS_Store
+
+# Ignore all IntelliJ/WebStorm project directories named .idea anywhere
+**/.idea/

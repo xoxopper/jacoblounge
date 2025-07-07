@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  <link rel="preload" href="https://cdn.tailwindcss.com" as="style">
+  <link rel="preload" href="css/login.css" as="style">
+  <link rel="preload" href="js/login.js" as="script">
+
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/login.css">
+  <script src="js/login.js"></script>
+
+</head>
+
+
+<body class="bg-gray-100 flex items-center justify-center h-screen overflow-hidden relative">
+
+<div id="whiteScreen" class="white-screen pointer-events-none"></div>
+<div id="loginCompleteForm" class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm space-y-6 transition-all duration-500">
+  <h2 class="text-2xl font-bold text-gray-800 text-center">Welcome Back 👋</h2>
+  <form id="loginForm" class="space-y-4">
+    <input
+            type="file"
+            id="keyFile"
+            accept=".pem"
+            required
+            class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+    <button
+            id="loginButton"
+            type="submit"
+            class="login-button w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl transition-opacity duration-300"
+    >
+      Log In
+    </button>
+  </form>
+</div>
+
+</body>
+</html>
+

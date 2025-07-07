@@ -1,5 +1,7 @@
-document.addEventListener("DOMContentLoaded", function(){
+
+function init() {
     const squares = document.querySelectorAll('.square');
+    const clones = {};
     const backButton = document.getElementById('backButton');
 
     const mainContent = document.getElementById('mainContent');
@@ -29,15 +31,51 @@ document.addEventListener("DOMContentLoaded", function(){
     }
 
     squares.forEach(square => {
-        const currentContentId = square.id;
+        const currentContentId = square.id.substring(0, square.id.length - "Grid".length);
 
         contentIdToSidebar[currentContentId] = document.getElementById(currentContentId + "Sidebar");
         contentIdToContentDiv[currentContentId] = document.getElementById(currentContentId + "Content");
         contentIdToOverlayTitle[currentContentId] = document.getElementById(currentContentId + "OverlayTitle");
         contentIdToOverlayText[currentContentId] = document.getElementById(currentContentId + "OverlayText");
 
+        // Clone the square
+        clone = square.cloneNode(true);
+        clone.style.position = 'fixed';
+        clone.style.margin = '0';
+        clone.style.zIndex = '100';
+        clone.style.transition = 'all 0.4s ease';
+        clone.style.cursor = 'default';
+        clone.style.userSelect = 'none';
+        clone.style.willChange = 'transform';
+        clone.id = currentContentId + 'Background'
+        clone.classList.add('fade-text');
+
+        // Hide clone text initially to avoid duplicate text
+        clone.style.color = 'transparent';
+
+        // Set clone initial size & position to match original square
+        const rect = getRect(square);
+        applyStyles(clone, {
+            top: rect.top + 'px',
+            left: rect.left + 'px',
+            width: (rect.width / window.innerWidth) * 100 + "vw",
+            height:(rect.height / window.innerHeight) * 100 + "vh",
+        });
+
+        clones[currentContentId] = clone;
+        clone = null
+
+        // Preloading images
+        square.addEventListener("mouseover", () => {
+            const img = new Image();
+            img.src = '../images/' + currentContentId + '_high_res.jpg';
+        });
+
         square.addEventListener('click', () => {
-            if (clone) return; // prevent multiple clicks
+            // Prevent multiple clicks
+            // TODO: Fix race condition
+            if (clone) return;
+            clone = clones[currentContentId];
 
             activeSquare = square;
 
@@ -51,26 +89,36 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             });
 
-            // Clone the clicked square
-            clone = square.cloneNode(true);
-            clone.style.position = 'fixed';
-            clone.style.margin = '0';
-            clone.style.zIndex = '100';
-            clone.style.transition = 'all 0.4s ease';
-            clone.style.cursor = 'default';
-            clone.style.userSelect = 'none';
-
-            // Hide clone text initially to avoid duplicate text
-            clone.style.color = 'transparent';
-
-            // Set clone initial size & position to match original square
+            // Reset clone initial size & position in case there was a window resize
             const rect = getRect(square);
             applyStyles(clone, {
                 top: rect.top + 'px',
                 left: rect.left + 'px',
-                width: rect.width + 'px',
-                height: rect.height + 'px',
+                width: (rect.width / window.innerWidth) * 100 + "vw",
+                height:(rect.height / window.innerHeight) * 100 + "vh",
             });
+
+            // Force the animation loop once
+            // >>>>>>>>
+            // >>>>>>>>
+            clone.getBoundingClientRect();
+            requestAnimationFrame(() => {
+                applyStyles(clone, {
+                    top: '0',
+                    left: '0',
+                    width: '100vw',
+                    height: '100vh',
+                });
+            });
+            clone.getBoundingClientRect();
+            applyStyles(clone, {
+                top: rect.top + 'px',
+                left: rect.left + 'px',
+                width: (rect.width / window.innerWidth) * 100 + "vw",
+                height:(rect.height / window.innerHeight) * 100 + "vh",
+            });
+            // <<<<<<<<<<<<
+            // <<<<<<<<<<<<
 
             document.body.appendChild(clone);
 
@@ -91,15 +139,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 });
             });
 
-            // After transition, fade in clone text and show content + back button
-            clone.addEventListener('transitionend', function onExpandTransitionEnd(e) {
-                if (e.propertyName === 'width' || e.propertyName === 'height') {
-                    clone.style.color = '';
-                    contentIdToContentDiv[currentContentId].classList.add('visible');
-                    backButton.classList.add('visible');
-                    clone.removeEventListener('transitionend', onExpandTransitionEnd);
-                }
-            });
+            setTimeout(() => {
+                clone.style.color = '';
+                contentIdToContentDiv[currentContentId].classList.add('visible');
+                backButton.classList.add('visible');
+            }, 100);
 
             if (contentIdToSidebar[currentContentId].classList.contains('collapsed')) {
                 contentIdToSidebar[currentContentId].style.width = "35px";
@@ -120,37 +164,6 @@ document.addEventListener("DOMContentLoaded", function(){
         contentIdToContentDiv[lastContentIdChanged].classList.remove('visible');
         backButton.classList.remove('visible');
 
-        // Wait for the opacity transition of content (400ms) to finish
-        const onFadeOutEnd = (e) => {
-            if (e.propertyName === 'opacity') {
-                // Animate clone back to original position & size
-                const rect = getRect(activeSquare);
-                applyStyles(clone, {
-                    top: rect.top + 'px',
-                    left: rect.left + 'px',
-                    width: rect.width + 'px',
-                    height: rect.height + 'px',
-                });
-
-                // Fade original button text back in
-                if (activeSquare) {
-                    activeSquare.classList.remove('fade-text');
-                }
-
-                clone.removeEventListener('transitionend', onFadeOutEnd);
-
-                clone.addEventListener('transitionend', function onCollapseTransitionEnd(e) {
-                    if (e.propertyName === 'width' || e.propertyName === 'height') {
-                        clone.removeEventListener('transitionend', onCollapseTransitionEnd);
-                        clone.remove();
-                        clone = null;
-                        squares.forEach(sq => sq.classList.remove('dimmed'));
-                        activeSquare = null;
-                    }
-                });
-            }
-        };
-
         // Listen only once for transition end on content opacity
         //content.addEventListener('transitionend', onFadeOutEnd, { once: true });
         setTimeout(() => {
@@ -168,10 +181,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 activeSquare.classList.remove('fade-text');
             }
 
-            clone.removeEventListener('transitionend', onFadeOutEnd);
-
             clone.addEventListener('transitionend', function onCollapseTransitionEnd(e) {
-                if (e.propertyName === 'width' || e.propertyName === 'height') {
+                if (e.propertyName === 'width' || e.propertyName === 'height' || e.propertyName === 'transform') {
                     clone.removeEventListener('transitionend', onCollapseTransitionEnd);
                     clone.remove();
                     clone = null;
@@ -184,4 +195,15 @@ document.addEventListener("DOMContentLoaded", function(){
         }, 50);
 
     });
+}
+
+window.addEventListener('load', () => {requestAnimationFrame(() => {
+    document.body.classList.add('loaded');
 });
+});
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init(); // DOM is already loaded
+}

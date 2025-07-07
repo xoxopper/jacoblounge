@@ -2,11 +2,9 @@
 
 HOSTNAMES=(
   "home.jacoblounge"
-  "test.jacoblounge"
   "cards.jacoblounge"
   "anime.jacoblounge"
   "travel.jacoblounge"
-  "frontend.jacoblounge"
 )
 
 TEMPLATE="example_server.conf"

@@ -1,15 +1,16 @@
 # Use the official Golang image
-FROM golang:1.21-alpine
+FROM golang:1.24-alpine
 
 # Set working directory
 WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
 
 # Copy source code
 COPY . .
 
 # Build the Go app
-RUN go mod init test.jacoblounge
-RUN go mod tidy
 RUN go build -o server
 
 # Expose port
