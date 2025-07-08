@@ -29,6 +29,9 @@ func main() {
     http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
         http.ServeFile(w, r, "static/login.html")
     })
+    http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+        http.ServeFile(w, r, "favicon/favicon.ico")
+    })
 
     fmt.Println("Server is running on port 80...")
     err := http.ListenAndServe(":80", nil)
